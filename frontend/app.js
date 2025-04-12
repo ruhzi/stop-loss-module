@@ -1,4 +1,5 @@
-// Replace with your deployed contract address
+const { ethers } = window;
+
 const CONTRACT_ADDRESS = "0xB795f6ec04e01a82f75Db171387f293F0ed1b203"; // <-- Set this!
 
 const ABI = [
@@ -18,19 +19,31 @@ const ABI = [
 let provider, signer, contract;
 
 async function connectWallet() {
-  if (!window.ethereum) return alert("Please install MetaMask");
+  if (typeof window.ethereum === "undefined") {
+    alert("Please install MetaMask");
+    return;
+  }
 
-  provider = new ethers.BrowserProvider(window.ethereum);
-  signer = await provider.getSigner();
-  contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+  try {
+    provider = new ethers.providers.Web3Provider(window.ethereum); // ✅ ethers v5
+    await provider.send("eth_requestAccounts", []); // ✅ prompts MetaMask
+    signer = provider.getSigner();
+    contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
 
-  const address = await signer.getAddress();
-  document.getElementById("wallet-address").textContent = `Connected: ${address}`;
+    const address = await signer.getAddress();
+    document.getElementById("wallet-address").textContent = `Connected: ${address}`;
+  } catch (err) {
+    console.error("Wallet connection failed:", err);
+    document.getElementById("status").textContent = "❌ Wallet connection failed.";
+  }
 }
 
 async function registerStopLoss(market, threshold, size) {
   try {
-    const tx = await contract.registerStopLoss(market, BigInt(threshold), BigInt(size));
+    const parsedThreshold = ethers.utils.parseUnits(threshold.toString(), 0); // whole number
+    const parsedSize = ethers.utils.parseUnits(size.toString(), 18); // supports decimals
+
+    const tx = await contract.registerStopLoss(market, parsedThreshold, parsedSize);
     document.getElementById("status").textContent = "⏳ Waiting for confirmation...";
     await tx.wait();
     document.getElementById("status").textContent = "✅ Confirmed on-chain!";
@@ -80,12 +93,12 @@ async function loadOrders() {
 document.getElementById("register-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const market = document.getElementById("market").value;
+  const market = document.getElementById("market").value.trim();
   const threshold = document.getElementById("threshold").value;
   const size = document.getElementById("size").value;
 
-  if (!market || !threshold || !size) {
-    document.getElementById("status").textContent = "❗ Please fill all fields.";
+  if (!market || isNaN(threshold) || isNaN(size)) {
+    document.getElementById("status").textContent = "❗ Please enter valid inputs.";
     return;
   }
 

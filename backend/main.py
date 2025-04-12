@@ -5,7 +5,23 @@ from pydantic import BaseModel
 from stop_loss_manager import register_stop_loss_logic, stop_loss_orders
 import uvicorn
 
+from fastapi.middleware.cors import CORSMiddleware
+
+
+
+
 app = FastAPI()
+
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # for dev only
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 class StopLossRequest(BaseModel):
     market: str
