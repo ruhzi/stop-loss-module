@@ -1,13 +1,32 @@
-# Sample Hardhat Project
+# 🛑 Decentralized Stop-Loss Module – Backend
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
+A backend system for a decentralized stop-loss trading module built using **FastAPI** and **Web3.py**, integrated with **Hyperliquid Testnet** for price feeds and **Arbitrum Sepolia** for on-chain state syncing.
 
-Try running some of the following tasks:
+---
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat ignition deploy ./ignition/modules/Lock.js
-```
+## 🚀 Features
+
+- Register stop-loss orders via REST API
+- Subscribe to live price feeds using WebSockets
+- Auto-execute market sell trades (mock or real)
+- Persist state locally using JSON
+- Sync triggered orders on-chain via smart contract
+- Listen to `StopLossRegistered` on-chain events and reflect them in backend
+- Basic unit tests to verify registration and trigger logic
+
+---
+
+## 🧱 Tech Stack
+
+- **Python 3.10+**
+- **FastAPI** (REST API)
+- **Web3.py** (Blockchain interactions)
+- **httpx** (HTTP client)
+- **websockets** (Hyperliquid feed)
+- **dotenv** (Environment config)
+- **unittest** (Testing)
+
+---
+
+## 📁 Project Structure
+
