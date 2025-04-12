@@ -76,7 +76,9 @@ def mark_triggered_onchain(order_id: int, market_price: float):
     PRIVATE_KEY = os.getenv("PRIVATE_KEY")
     CONTRACT_ADDRESS = os.getenv("CONTRACT_ADDRESS")
 
-    with open("backend/abi.json") as f:
+    from pathlib import Path
+    abi_path = Path(__file__).resolve().parent / "abi.json"
+    with open(abi_path) as f:
         abi = json.load(f)
 
     w3 = Web3(Web3.HTTPProvider(RPC_URL))
@@ -93,7 +95,8 @@ def mark_triggered_onchain(order_id: int, market_price: float):
         })
 
         signed_txn = w3.eth.account.sign_transaction(txn, private_key=PRIVATE_KEY)
-        tx_hash = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
+        tx_hash = w3.eth.send_raw_transaction(signed_txn.raw_transaction)
+
         print(f"🔁 markTriggered() sent | TX Hash: {tx_hash.hex()}")
         return True
 
