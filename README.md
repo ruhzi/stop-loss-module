@@ -30,3 +30,20 @@ A backend system for a decentralized stop-loss trading module built using **Fast
 
 ## 📁 Project Structure
 
+### Frontend CDN Libraries
+
+These are loaded via `<script>` tags in `index.html`:
+
+- [Tailwind CSS](https://cdn.tailwindcss.com)
+- [Ethers.js v5.7.2 (UMD build)](https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js)
+
+Requirements - 
+fastapi
+uvicorn
+websockets
+httpx
+pydantic
+python-dotenv
+web3
+eth-account
+
