@@ -1,5 +1,5 @@
 // Replace with your deployed contract address
-const CONTRACT_ADDRESS = "0xYourDeployedContractAddress"; // <-- Set this!
+const CONTRACT_ADDRESS = "0xB795f6ec04e01a82f75Db171387f293F0ed1b203"; // <-- Set this!
 
 const ABI = [
   {
