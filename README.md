@@ -1,53 +1,73 @@
- decentralized stop-loss module built using Hyperliquid's testnet API, FastAPI backend, and a minimal vanilla JS + Tailwind frontend. The system allows users to set price-triggered stop-loss orders, which are executed based on real-time price feeds from Hyperliquid.
+# Stop-Loss Trading Module
 
-🚀 Features
+A decentralized stop-loss module built using Hyperliquid's testnet API, FastAPI backend, and a React frontend with Tailwind CSS.
 
-🔐 Wallet-based order registration via MetaMask
+## Features
 
-📡 Real-time price tracking with Hyperliquid testnet WebSocket feed
+- 🔐 Wallet-based order registration via MetaMask
+- 📡 Real-time price tracking with Hyperliquid testnet WebSocket feed
+- ⚙️ Trigger logic and trade execution via backend logic
+- 💾 Off-chain order persistence using orders.json
+- 📊 Frontend UI to register, view, and manage stop-loss orders per wallet
+- 🔁 Mock mode for demo-safe trade simulation
 
-⚙️ Trigger logic and trade execution via backend logic
+## Deployment on Render
 
-💾 Off-chain order persistence using orders.json
+### Prerequisites
 
-📊 Frontend UI to register, view, and manage stop-loss orders per wallet
+- A Render account
+- Git repository with this code
 
-🔁 Mock mode for demo-safe trade simulation
+### Deployment Steps
 
-🧱 Tech Stack
+1. **Fork or clone this repository**
 
-📦 Backend
+2. **Create a new Web Service on Render**
+   - Connect your GitHub repository
+   - Select the repository
+   - Choose "Python" as the environment
 
-Python + FastAPI — REST API server
+3. **Configure the service**
+   - **Name**: stop-loss-api (or your preferred name)
+   - **Environment**: Python
+   - **Build Command**: `pip install -r backend/requirements.txt`
+   - **Start Command**: `cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT`
 
-WebSocket Client — Live price feed from Hyperliquid testnet
+4. **Set environment variables**
+   - `MOCK_MODE`: Set to `true` for demo purposes
+   - `PRIVATE_KEY`: Your Ethereum private key (for signing transactions)
+   - `WALLET_ADDRESS`: Your Ethereum wallet address
 
-Local JSON storage — Persistent orders via orders.json
+5. **Deploy**
+   - Click "Create Web Service"
+   - Render will automatically deploy your application
 
-Trade executor — Sends POST requests to Hyperliquid API
+### Environment Variables
 
-🌐 Frontend
+The following environment variables are required:
 
-Vanilla JavaScript — UI logic with ethers.js
+- `PRIVATE_KEY`: Ethereum private key for signing transactions
+- `WALLET_ADDRESS`: Ethereum wallet address
+- `MOCK_MODE`: Set to `true` to enable mock mode (no real trades)
 
-Tailwind CSS — Responsive, modern styling
+## Local Development
 
-MetaMask — Wallet connection + address detection
+### Backend
 
-🧪 How It Works
+```bash
+cd backend
+pip install -r requirements.txt
+python main.py
+```
 
-User connects MetaMask → app.js captures wallet address
+### Frontend
 
-User registers stop-loss order
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-Saved to backend via /api/register
+## License
 
-Registered on Hyperliquid via trade API (mocked or real)
-
-Backend listens to price feed
-
-If price <= threshold, order is triggered
-
-Trade is executed (or simulated)
-
-Triggered state saved → UI updates live via loadOrders()
+MIT
