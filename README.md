@@ -1,49 +1,53 @@
-# 🛑 Decentralized Stop-Loss Module – Backend
+ decentralized stop-loss module built using Hyperliquid's testnet API, FastAPI backend, and a minimal vanilla JS + Tailwind frontend. The system allows users to set price-triggered stop-loss orders, which are executed based on real-time price feeds from Hyperliquid.
 
-A backend system for a decentralized stop-loss trading module built using **FastAPI** and **Web3.py**, integrated with **Hyperliquid Testnet** for price feeds and **Arbitrum Sepolia** for on-chain state syncing.
+🚀 Features
 
----
+🔐 Wallet-based order registration via MetaMask
 
-## 🚀 Features
+📡 Real-time price tracking with Hyperliquid testnet WebSocket feed
 
-- Register stop-loss orders via REST API
-- Subscribe to live price feeds using WebSockets
-- Auto-execute market sell trades (mock or real)
-- Persist state locally using JSON
-- Sync triggered orders on-chain via smart contract
-- Listen to `StopLossRegistered` on-chain events and reflect them in backend
-- Basic unit tests to verify registration and trigger logic
+⚙️ Trigger logic and trade execution via backend logic
 
----
+💾 Off-chain order persistence using orders.json
 
-## 🧱 Tech Stack
+📊 Frontend UI to register, view, and manage stop-loss orders per wallet
 
-- **Python 3.10+**
-- **FastAPI** (REST API)
-- **Web3.py** (Blockchain interactions)
-- **httpx** (HTTP client)
-- **websockets** (Hyperliquid feed)
-- **dotenv** (Environment config)
-- **unittest** (Testing)
+🔁 Mock mode for demo-safe trade simulation
 
----
+🧱 Tech Stack
 
-## 📁 Project Structure
+📦 Backend
 
-### Frontend CDN Libraries
+Python + FastAPI — REST API server
 
-These are loaded via `<script>` tags in `index.html`:
+WebSocket Client — Live price feed from Hyperliquid testnet
 
-- [Tailwind CSS](https://cdn.tailwindcss.com)
-- [Ethers.js v5.7.2 (UMD build)](https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js)
+Local JSON storage — Persistent orders via orders.json
 
-Requirements - 
-fastapi
-uvicorn
-websockets
-httpx
-pydantic
-python-dotenv
-web3
-eth-account
+Trade executor — Sends POST requests to Hyperliquid API
 
+🌐 Frontend
+
+Vanilla JavaScript — UI logic with ethers.js
+
+Tailwind CSS — Responsive, modern styling
+
+MetaMask — Wallet connection + address detection
+
+🧪 How It Works
+
+User connects MetaMask → app.js captures wallet address
+
+User registers stop-loss order
+
+Saved to backend via /api/register
+
+Registered on Hyperliquid via trade API (mocked or real)
+
+Backend listens to price feed
+
+If price <= threshold, order is triggered
+
+Trade is executed (or simulated)
+
+Triggered state saved → UI updates live via loadOrders()
